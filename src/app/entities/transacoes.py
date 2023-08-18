@@ -13,6 +13,6 @@ class Transacoes:
         self.type = type
         self.value = value
         self.current_balance = current_balance
-        self.timestamp = timestamp
+        self.timestamp = timestamp        
     
         

@@ -3,7 +3,7 @@ from src.app.entities.transacoes import Transacoes
 
 
 
-class Test_Item:
+class Test_Transacoes:
     def test_transacoes(self):
         type = "deposit"
         value = 100.00
