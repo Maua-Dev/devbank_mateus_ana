@@ -3,7 +3,7 @@ from ..errors.entity_errors import ParamNotValidated
 from ..enums.item_type_enum import ItemTypeEnum
 
 
-class Transacoes:
+class Transactions:
     type: str
     value: float
     current_balance: float
