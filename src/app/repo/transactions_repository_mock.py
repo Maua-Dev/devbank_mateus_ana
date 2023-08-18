@@ -10,10 +10,10 @@ class ItemRepositoryMock(IITransactionsRepository):
 
     def __init__(self):
         self.transactions = [
-            Transactions(type="deposit", value=1000, current_balance=1000, timestamp=1625548800),
-            Transactions(type="deposit", value=2000, current_balance=3000, timestamp=1625548800),
-            Transactions(type="withdraw", value=500, current_balance=2500, timestamp=1625548800),
-            Transactions(type="withdraw", value=500, current_balance=2000, timestamp=1625548800),
+            Transactions(type="deposit", value=1000.00, current_balance=1000.00, timestamp=1625548800.00),
+            Transactions(type="deposit", value=2000.00, current_balance=3000.00, timestamp=1625548800.00),
+            Transactions(type="withdraw", value=500.00, current_balance=2500.00, timestamp=1625548800.00),
+            Transactions(type="withdraw", value=500.00, current_balance=2000.00, timestamp=1625548800.00),
         ]
 
     def get_all_transactions(self) -> List[Transactions]:
