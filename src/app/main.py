@@ -3,7 +3,7 @@ from mangum import Mangum
 
 from .environments import Environments
 
-from .repo.item_repository_mock import ItemRepositoryMock
+from .repo.transacoes_repository_mock import ItemRepositoryMock
 
 from .errors.entity_errors import ParamNotValidated
 
