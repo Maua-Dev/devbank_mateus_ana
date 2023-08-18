@@ -16,6 +16,16 @@ class Test_Transactions:
 
         assert Transactions(type, value, current_balance, timestamp).type == type
 
+    def test_validate_deposit(self):
+        value = {}
+        with pytest.raises(ParamNotValidated):
+            Transactions(TransactionsTypeEnum.DEPOSIT.value, value, 100.00, 1004901390.00)
+    
+    def test_validate_suspicious_deposit(self):
+        with pytest.raises(ParamNotValidated):
+            Transactions(TransactionsTypeEnum.DEPOSIT.value, 300, 100.00, 1004901390.00)
+
+
     def test_validate_value(self):
         value = "100.00"
 
