@@ -1,10 +1,10 @@
 import pytest
-from src.app.repo.transactions_repository_mock import ItemRepositoryMock
+from src.app.repo.transactions_repository_mock import TransactionsRepositoryMock
 
 
 class Test_TransactionsRepositoryMock:
     def test_get_all_transactions(self):
-        repo = ItemRepositoryMock()
+        repo = TransactionsRepositoryMock()
 
         transactions = repo.get_all_transactions()
 

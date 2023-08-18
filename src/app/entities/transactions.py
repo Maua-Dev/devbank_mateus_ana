@@ -1,17 +1,16 @@
 from typing import Tuple
 from ..errors.entity_errors import ParamNotValidated
-from ..enums.item_type_enum import ItemTypeEnum
+from ..enums.transactions_type_enum import TransactionsTypeEnum
 
 
 class Transactions:
-    type: str
+    type: TransactionsTypeEnum
     value: float
     current_balance: float
     timestamp: float
 
-    def __init__(self, type: str, value: float, current_balance: float, timestamp: float):
-        if not self.validate_string_type(type):
-            raise ParamNotValidated("type", "Type must be a deposit or withdraw")
+    def __init__(self, type: TransactionsTypeEnum, value: float, current_balance: float, timestamp: float):
+        
         self.type = type
 
         if not self.validate_value(value):
@@ -30,8 +29,6 @@ class Transactions:
             raise ParamNotValidated("timestamp", "Timestamp must be a float")
         self.timestamp = timestamp    
 
-    def validate_string_type(self,type: str) -> bool:
-        return (type == "deposit" or type == "withdraw")
     
     def validate_negative_value(self, value: float) -> bool:
         return (value >= 0)

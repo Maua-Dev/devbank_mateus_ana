@@ -3,13 +3,15 @@ from mangum import Mangum
 
 from .environments import Environments
 
-from .repo.transactions_repository_mock import ItemRepositoryMock
+from .repo.transactions_repository_mock import TransactionsRepositoryMock
 
 from .errors.entity_errors import ParamNotValidated
 
-from .enums.item_type_enum import ItemTypeEnum
+from .enums.transactions_type_enum import TransactionsTypeEnum
 
-from .entities.transactions import Item
+from .entities.transactions import Transactions
+
+
 
 
 app = FastAPI()

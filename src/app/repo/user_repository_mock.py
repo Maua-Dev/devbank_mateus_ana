@@ -2,7 +2,6 @@ from typing import Dict, Optional, List
 
 from src.app.repo.user_repository_interface import IUserRepository
 
-from ..enums.item_type_enum import ItemTypeEnum
 from ..entities.user import User
 
 
