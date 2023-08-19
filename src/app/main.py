@@ -3,20 +3,34 @@ from mangum import Mangum
 
 from .environments import Environments
 
-from .repo.transactions_repository_mock import TransactionsRepositoryMock
+# from .repo.transactions_repository_mock import TransactionsRepositoryMock
 
-from .errors.entity_errors import ParamNotValidated
+# from .repo.user_repository_mock import UserRepositoryMock
 
-from .enums.transactions_type_enum import TransactionsTypeEnum
+# from .errors.entity_errors import ParamNotValidated
 
-from .entities.transactions import Transactions
+# from .enums.transactions_type_enum import TransactionsTypeEnum
+
+# from .entities.transactions import Transactions
 
 
 
 
 app = FastAPI()
 
-repo = Environments.get_item_repo()()
+userRepo = Environments.get_user_repo()()
+
+transactionRepo = Environments.get_transaction_repo()
+
+@app.get("/")
+
+def get_user():
+     user = userRepo.get_user()
+
+     return user.to_dict()
+
+
+
 
 
     

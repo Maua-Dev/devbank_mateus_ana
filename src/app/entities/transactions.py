@@ -79,6 +79,3 @@ class Transactions:
             "timestamp": self.timestamp
         }
 
-
-    
-        

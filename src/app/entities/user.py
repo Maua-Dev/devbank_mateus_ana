@@ -67,3 +67,11 @@ class User:
 
     def validate_negative_balance(self, current_balance: float) -> bool:
         return (current_balance >= 0)
+    
+    def to_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "agency": self.agency,
+            "account": self.account,
+            "current_balance": self.current_balance
+        }
