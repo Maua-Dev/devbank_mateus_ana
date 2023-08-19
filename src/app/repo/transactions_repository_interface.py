@@ -10,6 +10,8 @@ class IITransactionsRepository(ABC):
     def get_all_transactions(self) -> List[Transactions]:
         pass
 
+    def create_transaction(self, transaction: Transactions) -> Transactions:
+        pass
     
 
         

@@ -18,6 +18,11 @@ class TransactionsRepositoryMock(IITransactionsRepository):
 
     def get_all_transactions(self) -> List[Transactions]:
         return self.transactions  
+    
+    def create_transaction(self, transaction: Transactions) -> Transactions:
+        self.transactions.append(transaction)
+        
+        return transaction
         
     
     
