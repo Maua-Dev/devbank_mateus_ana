@@ -2,8 +2,8 @@ import time
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
 
-from src.app.entities.transactions import Transactions
-from src.app.enums.transactions_type_enum import TransactionsTypeEnum
+from entities.transactions import Transactions
+from enums.transactions_type_enum import TransactionsTypeEnum
 
 from .environments import Environments
 
