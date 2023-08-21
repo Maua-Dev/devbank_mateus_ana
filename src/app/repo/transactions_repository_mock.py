@@ -16,7 +16,6 @@ class TransactionsRepositoryMock(IITransactionsRepository):
     
     def create_transaction(self, transaction: Transactions) -> Transactions:
         self.transactions.append(transaction)
-        
         return transaction
         
     

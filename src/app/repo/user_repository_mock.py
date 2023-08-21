@@ -1,8 +1,8 @@
 from typing import Dict, Optional, List
 
-from src.app.repo.user_repository_interface import IUserRepository
+from user_repository_interface import IUserRepository
 
-from ..entities.user import User
+from entities.user import User
 
 
 class UserRepositoryMock(IUserRepository):
