@@ -3,7 +3,7 @@ import pytest
 from src.app.entities.transactions import Transactions
 from src.app.enums.transactions_type_enum import TransactionsTypeEnum
 
-from src.app.main import get_all_transactions, get_user,deposit
+from src.app.main import get_all_transactions, get_user,deposit,withdraw
 
 
 class Test_Main:
@@ -38,6 +38,21 @@ class Test_Main:
         }        
         response = deposit(dict_values)
         assert response["value"] == 120.0
-         
+
+    def test_withdraw(self):
+        user = get_user()
+        transactions = get_all_transactions()
+        dict_values={
+        "2": 5,
+        "5": 0,
+        "10": 0,
+        "20": 3,
+        "50": 1,
+        "100": 0,
+        "200": 0,
+        }  
+        response = withdraw(dict_values)
+        assert response["value"] == 120.0
+
     
     

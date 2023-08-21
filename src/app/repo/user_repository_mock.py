@@ -15,3 +15,7 @@ class UserRepositoryMock(IUserRepository):
     def deposit_current_balance(self, current_balance: float) -> float:
         self.user.current_balance += current_balance
         return self.user    
+    
+    def withdraw_current_balance(self, current_balance: float) -> float:
+        self.user.current_balance -= current_balance
+        return self.user  

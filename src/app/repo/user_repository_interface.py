@@ -12,3 +12,6 @@ class IUserRepository(ABC):
 
     def deposit_current_balance(self, current_balance: float) -> float:
         pass
+    
+    def withdraw_current_balance(self, current_balance:float) -> float:
+        pass

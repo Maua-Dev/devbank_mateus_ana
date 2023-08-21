@@ -68,8 +68,25 @@ def deposit(request: dict):
      return transaction.to_dict()
 
      
+@app.post("/withdraw")
 
+def withdraw(request: dict):
+     user = user_repo.get_user().to_dict()
+     total_value = sum([int(k)*v for k,v in request.items()])
+     if total_value > user["current_balance"]:
+          raise HTTPException(status_code=403, detail="Insufficient balance for transaction")
 
+     transaction = Transactions(
+          type = TransactionsTypeEnum.WITHDRAW.value,
+          value=float(total_value),
+          current_balance= user["current_balance"] - total_value,
+          timestamp=time.time()
+     )
+
+     transaction_repo.create_transaction(transaction)
+     user_repo.withdraw_current_balance(total_value)
+
+     return transaction.to_dict()
 
 
 
