@@ -65,7 +65,10 @@ def deposit(request: dict):
      transaction_repo.create_transaction(transaction)
      user_repo.deposit_current_balance(total_value)
 
-     return transaction.to_dict()
+     return {
+          "current_balance": transaction.current_balance,
+          "timestamp": transaction.timestamp
+     }
 
      
 @app.post("/withdraw")
@@ -86,7 +89,10 @@ def withdraw(request: dict):
      transaction_repo.create_transaction(transaction)
      user_repo.withdraw_current_balance(total_value)
 
-     return transaction.to_dict()
+     return {
+          "current_balance": transaction.current_balance,
+          "timestamp": transaction.timestamp
+     }
 
 
 
