@@ -19,7 +19,7 @@ class Test_TransactionsRepositoryMock:
 
         transaction = repo.create_transaction(
             Transactions(
-                type=TransactionsTypeEnum.DEPOSIT.value,    
+                type_transaction=TransactionsTypeEnum.DEPOSIT.value,    
                 value=1000.00,
                 current_balance=1000.00,
                 timestamp=1625548800.00

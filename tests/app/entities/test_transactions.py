@@ -14,7 +14,7 @@ class Test_Transactions:
         current_balance = 100.00
         timestamp = 1004901390.00
 
-        assert Transactions(type, value, current_balance, timestamp).type == type
+        assert Transactions(type, value, current_balance, timestamp).type_transaction == type
 
     def test_validate_value(self):
         value = "100.00"

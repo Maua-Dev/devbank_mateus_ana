@@ -2,6 +2,7 @@ import time
 from fastapi import FastAPI, HTTPException
 from mangum import Mangum
 
+
 from .entities.transactions import Transactions
 from .enums.transactions_type_enum import TransactionsTypeEnum
 
@@ -30,7 +31,6 @@ transaction_repo = Environments.get_transaction_repo()()
 
 def get_user():
      user = user_repo.get_user()
-
      return user.to_dict()
 
 @app.get("/history")
@@ -38,7 +38,6 @@ def get_user():
 def get_all_transactions():
      transactions = transaction_repo.get_all_transactions()
 
-     print(transactions)
      transaction_list = [transaction.to_dict() for transaction in transactions]
      return {
           'all_transactions':transaction_list
@@ -55,10 +54,10 @@ def deposit(request: dict):
           raise HTTPException(status_code=400, detail="Total deposit must be positive")
      
      transaction = Transactions(
-          type=TransactionsTypeEnum.DEPOSIT.value,
+          type_transaction=TransactionsTypeEnum.DEPOSIT.value,
           value=float(total_value),
           current_balance=total_value + user["current_balance"],
-          timestamp = time.time()
+          timestamp = time.time()*1000
      )    
 
 
@@ -80,10 +79,10 @@ def withdraw(request: dict):
           raise HTTPException(status_code=403, detail="Insufficient balance for transaction")
 
      transaction = Transactions(
-          type = TransactionsTypeEnum.WITHDRAW.value,
+          type_transaction = TransactionsTypeEnum.WITHDRAW.value,
           value=float(total_value),
           current_balance= user["current_balance"] - total_value,
-          timestamp=time.time()
+          timestamp=time.time()*1000
      )
 
      transaction_repo.create_transaction(transaction)

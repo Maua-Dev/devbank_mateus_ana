@@ -4,14 +4,14 @@ from ..enums.transactions_type_enum import TransactionsTypeEnum
 import time
 
 class Transactions:
-    type: TransactionsTypeEnum
+    type_transaction: TransactionsTypeEnum
     value: float
     current_balance: float
     timestamp: float
 
-    def __init__(self, type: TransactionsTypeEnum, value: float, current_balance: float, timestamp: float):
+    def __init__(self, type_transaction: TransactionsTypeEnum, value: float, current_balance: float, timestamp: float):
         
-        self.type = type
+        self.type_transaction = type_transaction
 
         if not self.validate_value(value):
             raise ParamNotValidated("value", "Value must be a float")
@@ -44,10 +44,13 @@ class Transactions:
     def validate_timestamp(self, timestamp: float) -> bool:
         return (type(timestamp) == float)
 
-
+    def validate_transaction_type(self, type: TransactionsTypeEnum) -> bool:
+        return (type(type) == TransactionsTypeEnum)
+    
+    
     def to_dict(self) -> dict:
         return {
-            "type": self.type,
+            "type": self.type_transaction,
             "value": self.value,
             "current_balance": self.current_balance,
             "timestamp": self.timestamp
