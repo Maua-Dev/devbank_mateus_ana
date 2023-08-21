@@ -37,7 +37,7 @@ class Test_Main:
         "200": 0,
         }        
         response = deposit(dict_values)
-        assert response["value"] == 120.0
+        assert response["current_balance"] == user["current_balance"] + 120.0
 
     def test_withdraw(self):
         user = get_user()
@@ -52,7 +52,8 @@ class Test_Main:
         "200": 0,
         }  
         response = withdraw(dict_values)
-        assert response["value"] == 120.0
+        
+        assert response["current_balance"] == user["current_balance"] - 120.0
 
     
     
