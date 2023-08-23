@@ -15,9 +15,37 @@ class IUserRepository(ABC):
     def deposit_current_balance(self, current_balance: float) -> float:
         pass
 
-    """Method: Function deposit_current_balance receives an type float variable(current_balance) that references user's account current balance and return an update of this variable (current_balance + deposit  = current_balance) as a type float too."""
-    
+    """
+    Deposit current balance
+
+    Paramenters
+    -----------------------
+    self: self
+    current_balance: float
+                    current_balance
+
+    Returns
+    --------------------------------
+    float
+
+        updates variable current_balance = current_balance + deposit_value
+    """
     def withdraw_current_balance(self, current_balance:float) -> float:
         pass
 
-    """Method: Function withdraw_current_balance receives an type float variable (current_balance) that references user's account current balance and return an update of this variable(current_balance - withdraw  = current_balance) as type float too."""
+
+    """
+    Withdraw current balance
+
+    Paramenters
+    -----------------------
+    self: self
+    current_balance: float
+                    current_balance
+
+    Returns
+    --------------------------------
+    float
+
+        updates variable current_balance = current_balance + withdraw_value
+    """
