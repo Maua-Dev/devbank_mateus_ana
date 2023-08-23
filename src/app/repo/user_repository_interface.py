@@ -10,7 +10,23 @@ class IUserRepository(ABC):
     def get_user(self) -> User:
         pass
 
-    """Method: Function get_user returns an user object of class User"""
+    """GET user 
+    
+    Parameters
+    --------------------
+    self:self
+
+    Returns
+    --------------------
+    Object 
+
+    {name == "Mateus"
+    agency == "0001"
+    account == "12345-6"
+    current_balance == 1000.00}
+
+    
+    """
 
     def deposit_current_balance(self, current_balance: float) -> float:
         pass
