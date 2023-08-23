@@ -13,6 +13,9 @@ class Transactions:
         
         self.type_transaction = type_transaction
 
+        if not self.validate_type_transaction(type_transaction):
+            raise ParamNotValidated("type_transaction", "type transaction must be a TransactionsTypeEnum" )
+
         if not self.validate_value(value):
             raise ParamNotValidated("value", "Value must be a float")
         if not self.validate_negative_value(value):
@@ -25,10 +28,15 @@ class Transactions:
             raise ParamNotValidated("current_balance", "Current balance must be a positive number")
         self.current_balance = current_balance
 
+    
+
         if not self.validate_timestamp(timestamp):
             raise ParamNotValidated("timestamp", "Timestamp must be a float")
         self.timestamp = timestamp   
 
+    def validate_type_transaction(self, type_transaction: TransactionsTypeEnum) -> bool:
+        return  type(type_transaction) != TransactionsTypeEnum
+    
     def validate_negative_value(self, value: float) -> bool:
         return (value >= 0)
 
@@ -43,10 +51,6 @@ class Transactions:
 
     def validate_timestamp(self, timestamp: float) -> bool:
         return (type(timestamp) == float)
-
-    def validate_transaction_type(self, type: TransactionsTypeEnum) -> bool:
-        return (type(type) == TransactionsTypeEnum)
-    
     
     def to_dict(self) -> dict:
         return {
