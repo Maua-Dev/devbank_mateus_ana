@@ -19,11 +19,13 @@ class Test_TransactionsRepositoryMock:
 
         transaction = repo.create_transaction(
             Transactions(
-                type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT.value,    
+                type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT,    
                 value=1000.00,
                 current_balance=1000.00,
                 timestamp=1625548800.00
             )
         )
-
-        assert transaction == repo.transactions[len(repo.transactions) - 1]
+        if len(repo.transactions) > 0:
+            assert transaction == repo.transactions[len(repo.transactions) - 1]
+        else:
+            assert transaction == repo.transactions[0]

@@ -1,14 +1,19 @@
+import time
 from typing import Dict, Optional, List
 from ..entities.transactions import Transactions
 from .transactions_repository_interface import IITransactionsRepository
+from ..enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 
 class TransactionsRepositoryMock(IITransactionsRepository):
     transactions: list[Transactions]
 
     def __init__(self):
-        self.transactions = []
-
+        self.transactions = [
+            Transactions(TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, time.time()),
+            Transactions(TRANSACTIONS_TYPE_ENUM.WITHDRAW, 50.00, 1050.00, time.time()),
+        ]
+        
     def get_all_transactions(self) -> List[Transactions]:
         return self.transactions  
     

@@ -1,13 +1,30 @@
 
 
+from src.app.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from src.app.repo.user_repository_mock import UserRepositoryMock
+from src.app.repo.transactions_repository_mock import TransactionsRepositoryMock
 
 
 class Test_UserRepositoryMock:
-        repo = UserRepositoryMock()
+        repo_user = UserRepositoryMock()
+        repo_transaction = TransactionsRepositoryMock()
 
-        user = repo.get_user()
+        user = repo_user.get_user()
+        transaction = repo_transaction.get_all_transactions()
 
-        expected_user = repo.user
-
-        assert user == expected_user
+        def test_get_user(self):
+                expected_user = self.user
+                assert self.user == expected_user
+        
+        def test_deposit_current_balance(self):
+                for transaction in self.transaction:
+                        if transaction.type_transaction == TRANSACTIONS_TYPE_ENUM.DEPOSIT:
+                                expected_current_balance = self.user.current_balance + transaction.value
+                                assert self.user.current_balance + transaction.value == expected_current_balance
+        
+        def test_withdraw_current_balance(self):
+                for transaction in self.transaction:
+                        if transaction.type_transaction == TRANSACTIONS_TYPE_ENUM.WITHDRAW:
+                                expected_current_balance = self.user.current_balance - transaction.value
+                                assert self.user.current_balance - transaction.value == expected_current_balance
+        

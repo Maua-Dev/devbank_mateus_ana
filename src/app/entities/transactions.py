@@ -13,9 +13,8 @@ class Transactions:
     def __init__(self, type_transaction:  TRANSACTIONS_TYPE_ENUM, value: float, current_balance: float, timestamp: float):
         
 
-        validate_type_trasaction = self.validate_type_transaction(type_transaction)
-        if validate_type_trasaction[0] is False:
-            raise ParamNotValidated("type_transaction", validate_type_trasaction[1])
+        if not self.validate_type_transaction(type_transaction):
+            raise ParamNotValidated("type_transaction", "Type transaction must be a TRANSACTIONS_TYPE_ENUM")
         self.type_transaction = type_transaction
 
         validate_value = self.validate_value(value)
@@ -34,11 +33,9 @@ class Transactions:
         self.timestamp = timestamp   
 
     @staticmethod
-    def validate_type_transaction(type_transaction:  TRANSACTIONS_TYPE_ENUM) -> Tuple[bool, str]:
-        if type(type_transaction) != str:
-            return (False, "type transaction must be an  TRANSACTIONS_TYPE_ENUM")
-        
-        return(True, "")
+    def validate_type_transaction(type_transaction:  TRANSACTIONS_TYPE_ENUM) -> bool:
+        return (type(type_transaction) ==  TRANSACTIONS_TYPE_ENUM)
+
     
     @staticmethod
     def validate_value(value: float) -> Tuple[bool, str]:
@@ -64,7 +61,7 @@ class Transactions:
 
     def to_dict(self) -> dict:
         return {
-            "type": self.type_transaction,
+            "type": self.type_transaction.value,
             "value": self.value,
             "current_balance": self.current_balance,
             "timestamp": self.timestamp

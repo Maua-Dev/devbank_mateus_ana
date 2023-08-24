@@ -51,7 +51,6 @@ class User:
         return(True, "")
     
     @staticmethod
-
     def validate_account(account: str) -> Tuple[bool, str]:
         if type(account) != str:
             return(False, "Account must be a string" )
@@ -65,7 +64,6 @@ class User:
         return(True, "")
     
     @staticmethod
-    
     def validate_current_balance(current_balance:float) -> Tuple[bool, str]:
         if type(current_balance) != float:
             return(False,"Current balance must be a float" )

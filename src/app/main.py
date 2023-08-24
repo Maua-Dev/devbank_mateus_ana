@@ -37,15 +37,19 @@ def get_all_transactions():
 @app.post("/deposit")
 
 def deposit(request: dict):
+     if request.keys() != {"2","5","10","20","50","100","200"}:
+          raise HTTPException(status_code=400, detail="Invalid deposit!")
+     
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
+
      if total_value > 2*user["current_balance"]:
           raise HTTPException(status_code=403, detail="Suspicious transaction")
      if total_value <= 0:
           raise HTTPException(status_code=400, detail="Total deposit must be positive")
      
      transaction = Transactions(
-          type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT.value,
+          type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT,
           value=float(total_value),
           current_balance=total_value + user["current_balance"],
           timestamp = time.time()*1000
@@ -55,22 +59,22 @@ def deposit(request: dict):
      transaction_repo.create_transaction(transaction)
      user_repo.deposit_current_balance(total_value)
 
-     return {
-          "current_balance": transaction.current_balance,
-          "timestamp": transaction.timestamp
-     }
+     return transaction.to_dict()
 
      
 @app.post("/withdraw")
 
 def withdraw(request: dict):
+     if request.keys() != {"2","5","10","20","50","100","200"}:
+          raise HTTPException(status_code=400, detail="Invalid withdraw!")
+
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
      if total_value > user["current_balance"]:
           raise HTTPException(status_code=403, detail="Insufficient balance for transaction")
 
      transaction = Transactions(
-          type_transaction =  TRANSACTIONS_TYPE_ENUM.WITHDRAW.value,
+          type_transaction =  TRANSACTIONS_TYPE_ENUM.WITHDRAW,
           value=float(total_value),
           current_balance= user["current_balance"] - total_value,
           timestamp=time.time()*1000
@@ -79,10 +83,7 @@ def withdraw(request: dict):
      transaction_repo.create_transaction(transaction)
      user_repo.withdraw_current_balance(total_value)
 
-     return {
-          "current_balance": transaction.current_balance,
-          "timestamp": transaction.timestamp
-     }
+     return transaction.to_dict()
 
 
 
