@@ -1,3 +1,4 @@
+from typing import Tuple
 from ..errors.entity_errors import ParamNotValidated
 
 class User:
@@ -7,67 +8,73 @@ class User:
     current_balance: float
 
     def __init__(self, name: str = None, agency: str = None, account: str = None, current_balance: float = None): 
-        if not self.validate_name(name):
-            raise ParamNotValidated("name", "Name must be a string")
-        if not self.validate_len_name(name):
-            raise ParamNotValidated("name", "Name must be filled")
-        self.name = name
 
-        if not self.validate_agency(agency):
-            raise ParamNotValidated("agency", "Agency must be a string")
-        if not self.validate_len_agency(agency):
-            raise ParamNotValidated("agency", "Agency must have 4 characters")
+        validate_name = self.validate_name(name)
+        if validate_name[0] is False:
+            raise ParamNotValidated("name", validate_name[1])
+        self.name = name
+        
+        validate_agency = self.validate_agency(agency)
+        if validate_agency[0] is False:
+            raise ParamNotValidated("agency", validate_agency[1])
+
         self.agency = agency
         
-        if not self.validate_account(account):
-            raise ParamNotValidated("account", "Account must be a string")
-        if not self.validate_len_account(account):
-            raise ParamNotValidated("account", "Account must have 7 characters")
-        if not self.validate_char_account(account):
-            raise ParamNotValidated("account", "Account must have 5th character as '-'")
+        validate_account = self.validate_account(account)
+        if validate_account[0] is False:
+            raise ParamNotValidated("account", validate_account[1])
+        
         self.account = account
 
-        if not self.validate_current_balance(current_balance):
-            raise ParamNotValidated("current_balance", "Current balance must be a float")
-        if not self.validate_negative_balance(current_balance):
-            raise ParamNotValidated("current_balance", "Current balance must be a positive number")
+        validate_current_balance = self.validate_current_balance(current_balance)
+        if validate_current_balance[0] is False:
+            raise ParamNotValidated("Current_balance", validate_current_balance[1])
+        
         self.current_balance = current_balance
     
+    @staticmethod
+    def validate_name(name: str) -> Tuple[bool,str]:
+        if type(name) != str:
+            return(False,  "Name must be a string")
+        if len(name) <= 0:
+            return(False, "Name must be filled")
+        
+        return(True, "")
+    @staticmethod
+    def validate_agency(agency: str) -> Tuple[bool, str]:
+        if type(agency) != str:
+            return(False, "Agency must be a string")
+        
+        if len(agency) != 4:
+            return(False, "Agency must have 4 characters")
+        
+        return(True, "")
+    
+    @staticmethod
 
-    def validate_len_name(self, name: str) -> bool:
-        return (len(name) > 0)
+    def validate_account(account: str) -> Tuple[bool, str]:
+        if type(account) != str:
+            return(False, "Account must be a string" )
+        
+        if len(account) != 7:
+            return(False, "Account must have 7 characters" )
+        
+        if account[5] != "-":
+            return(False,"Account must have 5th character as '-'" )
+        
+        return(True, "")
     
-    def validate_name(self, name: str) -> bool:
-        return (type(name) == str)
+    @staticmethod
     
-    
-    def validate_len_agency(self, agency: str) -> bool:
-        return (len(agency) == 4)
-    
-    
-    def validate_agency(self, agency: str) -> bool:
-        return (type(agency) == str)
-    
-
-    def validate_len_account(self, account: str) -> bool:
-        return (len(account) == 7)
-    
-
-    def validate_account(self, account: str) -> bool:
-        return (type(account) == str)
-    
-
-    def validate_char_account(self, account: str) -> bool:
-        return (account[5] == "-")
-    
-
-    def validate_current_balance(self, current_balance: float) -> bool:
-        return (type(current_balance) == float)
-    
-
-    def validate_negative_balance(self, current_balance: float) -> bool:
-        return (current_balance >= 0)
-    
+    def validate_current_balance(current_balance:float) -> Tuple[bool, str]:
+        if type(current_balance) != float:
+            return(False,"Current balance must be a float" )
+        
+        if current_balance < 0:
+            return(False, "Current balance must be a positive number")
+        
+        return(True, "")
+ 
     def to_dict(self) -> dict:
         return {
             "name": self.name,

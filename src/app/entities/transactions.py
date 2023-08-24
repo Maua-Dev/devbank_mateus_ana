@@ -1,57 +1,67 @@
+from typing import Tuple
 from ..errors.entity_errors import ParamNotValidated
-from ..enums.transactions_type_enum import TransactionsTypeEnum
+from..enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 import time
 
 class Transactions:
-    type_transaction: TransactionsTypeEnum
+    type_transaction:  TRANSACTIONS_TYPE_ENUM
     value: float
     current_balance: float
     timestamp: float
 
-    def __init__(self, type_transaction: TransactionsTypeEnum, value: float, current_balance: float, timestamp: float):
+    def __init__(self, type_transaction:  TRANSACTIONS_TYPE_ENUM, value: float, current_balance: float, timestamp: float):
         
+
+        validate_type_trasaction = self.validate_type_transaction(type_transaction)
+        if validate_type_trasaction[0] is False:
+            raise ParamNotValidated("type_transaction", validate_type_trasaction[1])
         self.type_transaction = type_transaction
 
-        if not self.validate_type_transaction(type_transaction):
-            raise ParamNotValidated("type_transaction", "type transaction must be a TransactionsTypeEnum" )
-
-        if not self.validate_value(value):
-            raise ParamNotValidated("value", "Value must be a float")
-        if not self.validate_negative_value(value):
-            raise ParamNotValidated("value", "Value must be a positive number")
+        validate_value = self.validate_value(value)
+        if validate_value[0] is False:
+            raise ParamNotValidated("value", validate_value[1])
         self.value = value
 
-        if not self.validate_current_balance(current_balance):
-            raise ParamNotValidated("current_balance", "Current balance must be a float")
-        if not self.validate_negative_current_balance(current_balance):
-            raise ParamNotValidated("current_balance", "Current balance must be a positive number")
+        validate_current_balance = self.validate_current_balance(current_balance)
+        if validate_current_balance[0] is False:
+            raise ParamNotValidated("current_balance", validate_current_balance[1])
         self.current_balance = current_balance
 
     
-
         if not self.validate_timestamp(timestamp):
             raise ParamNotValidated("timestamp", "Timestamp must be a float")
         self.timestamp = timestamp   
 
-    def validate_type_transaction(self, type_transaction: TransactionsTypeEnum) -> bool:
-        return  type(type_transaction) != TransactionsTypeEnum
+    @staticmethod
+    def validate_type_transaction(type_transaction:  TRANSACTIONS_TYPE_ENUM) -> Tuple[bool, str]:
+        if type(type_transaction) != str:
+            return (False, "type transaction must be an  TRANSACTIONS_TYPE_ENUM")
+        
+        return(True, "")
     
-    def validate_negative_value(self, value: float) -> bool:
-        return (value >= 0)
-
-    def validate_value(sf, value: float) -> bool:
-        return (type(value) == float)
+    @staticmethod
+    def validate_value(value: float) -> Tuple[bool, str]:
+        if type(value) != float:
+            return(False, "Value must be a float")
+        if value < 0:
+            return (False, "Value must be a positive number")
+        
+        return(True, "")
+        
+    @staticmethod
+    def validate_current_balance(current_balance: float) -> Tuple[bool, str]:
+        if type(current_balance) != float:
+            return(False, "Value must be a float")
+        if current_balance < 0:
+            return(False, "Value must be a positive number")
+        
+        return(True, "")
     
-    def validate_negative_current_balance(self, current_balance: float) -> bool:
-        return current_balance >= 0
-
-    def validate_current_balance(self, current_balance: float) -> bool:
-        return (type(current_balance) == float)
-
     def validate_timestamp(self, timestamp: float) -> bool:
         return (type(timestamp) == float)
     
+
     def to_dict(self) -> dict:
         return {
             "type": self.type_transaction,

@@ -14,7 +14,7 @@ class IITransactionsRepository(ABC):
 
     Parameters
     --------------------
-    None
+    self: self
 
     Returns
     --------------------
@@ -42,7 +42,7 @@ class IITransactionsRepository(ABC):
 
         ex:
         Transactions(
-          type_transaction=TransactionsTypeEnum.DEPOSIT.value,
+          type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT.value,
           value=float(total_value),
           current_balance=total_value + user["current_balance"],
           timestamp = time.time()*1000

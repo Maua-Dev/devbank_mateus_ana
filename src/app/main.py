@@ -4,7 +4,7 @@ from mangum import Mangum
 
 
 from .entities.transactions import Transactions
-from .enums.transactions_type_enum import TransactionsTypeEnum
+from .enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 from .environments import Environments
 
@@ -45,7 +45,7 @@ def deposit(request: dict):
           raise HTTPException(status_code=400, detail="Total deposit must be positive")
      
      transaction = Transactions(
-          type_transaction=TransactionsTypeEnum.DEPOSIT.value,
+          type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT.value,
           value=float(total_value),
           current_balance=total_value + user["current_balance"],
           timestamp = time.time()*1000
@@ -70,7 +70,7 @@ def withdraw(request: dict):
           raise HTTPException(status_code=403, detail="Insufficient balance for transaction")
 
      transaction = Transactions(
-          type_transaction = TransactionsTypeEnum.WITHDRAW.value,
+          type_transaction =  TRANSACTIONS_TYPE_ENUM.WITHDRAW.value,
           value=float(total_value),
           current_balance= user["current_balance"] - total_value,
           timestamp=time.time()*1000
