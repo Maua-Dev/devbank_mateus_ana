@@ -10,8 +10,8 @@ class TransactionsRepositoryMock(IITransactionsRepository):
 
     def __init__(self):
         self.transactions = [
-            Transactions(TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, time.time()),
-            Transactions(TRANSACTIONS_TYPE_ENUM.WITHDRAW, 50.00, 1050.00, time.time()),
+            Transactions(TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, time.time()*1000),
+            Transactions(TRANSACTIONS_TYPE_ENUM.WITHDRAW, 50.00, 1050.00, time.time()*1000),
         ]
         
     def get_all_transactions(self) -> List[Transactions]:

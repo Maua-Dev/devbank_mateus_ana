@@ -23,7 +23,7 @@ class Test_Main:
 
     def test_get_history(self):
         response = get_all_transactions()
-        # assert type(response) == dict
+        assert type(response) == dict
     
     def test_deposit(self):
         dict_values={
