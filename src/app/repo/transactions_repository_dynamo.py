@@ -9,6 +9,8 @@ from ..infra.external.dynamo.datasources.dynamo_datasource import DynamoDatasour
 from ..entities.transactions import Transactions
 from ..repo.transactions_repository_interface import IITransactionsRepository
 
+from boto3.dynamodb.conditions import Key
+
 
 class TransactionsRepositoryDynamo(IITransactionsRepository):
 
@@ -28,7 +30,19 @@ class TransactionsRepositoryDynamo(IITransactionsRepository):
                                        sort_key=Environments.get_envs().dynamo_sort_key)
 
     def get_all_transactions(self) -> List[Transactions]:
-        pass
+        query_string = Key(self.dynamo.partition_key).eq(self.partition_key_format())
+        resp = self.dynamo.query(key_condition_expression=query_string, Select='ALL_ATTRIBUTES')
+        
+        if resp.get('Items') is None:
+            return []
+        
+        transactions_list = []
+        for item in resp.get('Items'):
+            transactions_list.append(TransactionsDynamoDto.from_dynamo(item).to_entity())
+
+
+        return transactions_list
+
 
     def create_transaction(self, transaction: Transactions) -> Transactions:
         transactions_dto = TransactionsDynamoDto.from_entity(transaction)

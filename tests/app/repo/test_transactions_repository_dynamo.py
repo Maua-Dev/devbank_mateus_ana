@@ -5,8 +5,13 @@ from src.app.repo.transactions_repository_dynamo import TransactionsRepositoryDy
 
 
 class Test_TransactionsRepositoryDynamo:
+
+    @pytest.mark.skip("Cannot test in GitHub CI")
     def test_get_all_transactions(self):
-        pass
+        repo_dynamo = TransactionsRepositoryDynamo()
+        all_transactions = repo_dynamo.get_all_transactions()
+
+        assert True
 
     @pytest.mark.skip("Cannot test in GitHub CI")
     def test_create_transaction(self):
