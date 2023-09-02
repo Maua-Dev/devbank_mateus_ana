@@ -9,7 +9,6 @@ from .errors.environment_errors import EnvironmentNotFound
 from .repo.transactions_repository_interface import IITransactionsRepository
 
 
-
 class STAGE(Enum):
     DOTENV = "DOTENV"
     DEV = "DEV"
@@ -37,24 +36,44 @@ class Environments:
 
         self.stage = STAGE[os.environ.get("STAGE")]
 
+        if self.stage == STAGE.TEST:
+            self.s3_bucket_name = "bucket-test"
+            self.region = "sa-east-1"
+            self.endpoint_url = "http://localhost:8000"
+            self.dynamo_table_name = "soller-capacitacao-0209-table"
+            self.dynamo_partition_key = "PK"
+            self.dynamo_sort_key = "SK"
+            self.cloud_front_distribution_domain = "https://d3q9q9q9q9q9q9.cloudfront.net"
+
+        else:
+            self.s3_bucket_name = os.environ.get("S3_BUCKET_NAME")
+            self.region = os.environ.get("REGION")
+            self.endpoint_url = os.environ.get("ENDPOINT_URL")
+            self.dynamo_table_name = os.environ.get("DYNAMO_TABLE_NAME")
+            self.dynamo_partition_key = os.environ.get("DYNAMO_PARTITION_KEY")
+            self.dynamo_sort_key = os.environ.get("DYNAMO_SORT_KEY")
+            self.cloud_front_distribution_domain = os.environ.get("CLOUD_FRONT_DISTRIBUTION_DOMAIN")
+
     @staticmethod
     def get_transaction_repo() -> IITransactionsRepository:
         if Environments.get_envs().stage == STAGE.TEST:
             from .repo.transactions_repository_mock import TransactionsRepositoryMock
             return TransactionsRepositoryMock
-        # use "elif" conditional to add other stages
+        elif Environments.get_envs().stage[STAGE.DEV, STAGE.PROD]:
+            from .repo.transactions_repository_dynamo import TransactionsRepositoryDynamo
+            return TransactionsRepositoryDynamo
         else:
             raise EnvironmentNotFound("STAGE")
-        
+
     @staticmethod
     def get_user_repo() -> IUserRepository:
-        if Environments.get_envs().stage == STAGE.TEST:
+        if Environments.get_envs().stage == [STAGE.TEST, STAGE.DEV, STAGE.PROD]:
             from .repo.user_repository_mock import UserRepositoryMock
             return UserRepositoryMock
         # use "elif" conditional to add other stages
         else:
             raise EnvironmentNotFound("STAGE")
-        
+
     @staticmethod
     def get_envs() -> "Environments":
         """
