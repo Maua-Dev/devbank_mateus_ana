@@ -60,7 +60,7 @@ class Environments:
         if Environments.get_envs().stage == STAGE.TEST:
             from .repo.transactions_repository_mock import TransactionsRepositoryMock
             return TransactionsRepositoryMock
-        elif Environments.get_envs().stage[STAGE.DEV, STAGE.PROD]:
+        elif Environments.get_envs().stage in [STAGE.DEV, STAGE.PROD]:
             from .repo.transactions_repository_dynamo import TransactionsRepositoryDynamo
             return TransactionsRepositoryDynamo
         else:

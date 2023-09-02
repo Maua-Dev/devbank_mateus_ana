@@ -1,5 +1,5 @@
 from decimal import Decimal
-from src.app.entities.transactions import Transactions
+from ...entities.transactions import Transactions
 from ...enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 
