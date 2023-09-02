@@ -51,6 +51,64 @@ class Test_TransactionDynamoDto:
 
     expected == item
 
+  def test_from_dynamo(self):
+    item = {'PK': 'transactions',
+            'SK': 'transactions#1693661431284.0298',
+            'current_balance': Decimal('1100'),
+            'entity': 'transactions',
+            'timestamp': Decimal('1693661431284.0298'),
+            'type_transaction': 'DEPOSIT',
+            'value': Decimal('100')}
+    
+    transactions_dto = TransactionsDynamoDto.from_dynamo(item)
+    expected = TransactionsDynamoDto(
+      TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, 1693661431284.0298
+    )
+
+    assert transactions_dto.type_transaction == expected.type_transaction
+    assert transactions_dto.value == expected.value
+    assert transactions_dto.current_balance == expected.current_balance
+    assert transactions_dto.timestamp == expected.timestamp
+
+  def test_to_entity(self):
+    transactions_dto = TransactionsDynamoDto(
+      TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, 1693661431284.0298
+    )
+
+    transactions = transactions_dto.to_entity()
+
+    expected = Transactions(
+      TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, 1693661431284.0298
+    )
+
+    assert transactions.type_transaction == expected.type_transaction
+    assert transactions.value == expected.value
+    assert transactions.current_balance == expected.current_balance
+    assert transactions.timestamp == expected.timestamp
+  
+  def test_from_dynamo_to_entity(self):
+    item = {'PK': 'transactions',
+            'SK': 'transactions#1693661431284.0298',
+            'current_balance': Decimal('1100'),
+            'entity': 'transactions',
+            'timestamp': Decimal('1693661431284.0298'),
+            'type_transaction': 'DEPOSIT',
+            'value': Decimal('100')}
+    
+    transactions_dto = TransactionsDynamoDto.from_dynamo(item)
+
+    transactions = transactions_dto.to_entity()
+
+    expected = Transactions(
+      TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, 1693661431284.0298
+    )
+
+    assert transactions.type_transaction == expected.type_transaction
+    assert transactions.value == expected.value
+    assert transactions.current_balance == expected.current_balance
+    assert transactions.timestamp == expected.timestamp
+
+
 
 
 

@@ -32,3 +32,20 @@ class TransactionsDynamoDto:
             "current_balance": Decimal(str(self.current_balance)),
             "timestamp": Decimal(str(self.timestamp)),
         }
+
+    @staticmethod
+    def from_dynamo(item: dict) -> "TransactionsDynamoDto":
+        return TransactionsDynamoDto(
+            type_transaction=TRANSACTIONS_TYPE_ENUM(item["type_transaction"]),
+            value=float(item["value"]),
+            current_balance=float(item["current_balance"]),
+            timestamp=float(item["timestamp"]),
+        )
+
+    def to_entity(self) -> Transactions:
+        return Transactions(
+            type_transaction=self.type_transaction,
+            value=self.value,
+            current_balance=self.current_balance,
+            timestamp=self.timestamp,
+        )
