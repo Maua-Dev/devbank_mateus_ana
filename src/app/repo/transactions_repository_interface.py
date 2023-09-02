@@ -22,7 +22,7 @@ class IITransactionsRepository(ABC):
         a list of objects of the class Transaction
     """
 
-
+    @abstractmethod
     def create_transaction(self, transaction: Transactions) -> Transactions:
         pass
 
