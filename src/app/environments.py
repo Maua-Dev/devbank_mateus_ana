@@ -52,7 +52,8 @@ class Environments:
             self.dynamo_table_name = os.environ.get("DYNAMO_TABLE_NAME")
             self.dynamo_partition_key = os.environ.get("DYNAMO_PARTITION_KEY")
             self.dynamo_sort_key = os.environ.get("DYNAMO_SORT_KEY")
-            self.cloud_front_distribution_domain = os.environ.get("CLOUD_FRONT_DISTRIBUTION_DOMAIN")
+            self.cloud_front_distribution_domain = os.environ.get(
+                "CLOUD_FRONT_DISTRIBUTION_DOMAIN")
 
     @staticmethod
     def get_transaction_repo() -> IITransactionsRepository:
@@ -67,7 +68,7 @@ class Environments:
 
     @staticmethod
     def get_user_repo() -> IUserRepository:
-        if Environments.get_envs().stage == [STAGE.TEST, STAGE.DEV, STAGE.PROD]:
+        if Environments.get_envs().stage in [STAGE.TEST, STAGE.DEV, STAGE.PROD]:
             from .repo.user_repository_mock import UserRepositoryMock
             return UserRepositoryMock
         # use "elif" conditional to add other stages
