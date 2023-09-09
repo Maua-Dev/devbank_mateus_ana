@@ -1,8 +1,8 @@
 import time
 from typing import Dict, Optional, List
-from ..entities.transactions import Transactions
+from ...domain.entities.transactions import Transactions
 from ...domain.repositories.transactions_repository_interface import IITransactionsRepository
-from ..enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
+from ...domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 
 class TransactionsRepositoryMock(IITransactionsRepository):

@@ -3,10 +3,10 @@ from fastapi import FastAPI, HTTPException
 from mangum import Mangum
 
 
-from .entities.transactions import Transactions
-from .enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
+from ..shared.domain.entities.transactions import Transactions
+from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
-from .environments import Environments
+from ..shared.environments import Environments
 
 
 
