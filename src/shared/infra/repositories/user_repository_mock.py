@@ -1,6 +1,6 @@
 from typing import Dict, Optional, List
 
-from .user_repository_interface import IUserRepository
+from ...domain.repositories.user_repository_interface import IUserRepository
 
 from ..entities.user import User
 
