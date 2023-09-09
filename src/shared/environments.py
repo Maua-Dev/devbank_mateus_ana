@@ -2,11 +2,11 @@
 from enum import Enum
 import os
 
-from .repo.user_repository_interface import IUserRepository
+from ..shared.domain.repositories.user_repository_interface import IUserRepository
 
-from .errors.environment_errors import EnvironmentNotFound
+from ..shared.helpers.errors.environment_errors import EnvironmentNotFound
 
-from .repo.transactions_repository_interface import IITransactionsRepository
+from ..shared.domain.repositories.transactions_repository_interface import IITransactionsRepository
 
 
 
@@ -40,7 +40,7 @@ class Environments:
     @staticmethod
     def get_transaction_repo() -> IITransactionsRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from .repo.transactions_repository_mock import TransactionsRepositoryMock
+            from ..shared.infra.repositories.transactions_repository_mock import TransactionsRepositoryMock
             return TransactionsRepositoryMock
         # use "elif" conditional to add other stages
         else:
@@ -49,7 +49,7 @@ class Environments:
     @staticmethod
     def get_user_repo() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from .repo.user_repository_mock import UserRepositoryMock
+            from ..shared.infra.repositories.user_repository_mock import UserRepositoryMock
             return UserRepositoryMock
         # use "elif" conditional to add other stages
         else:

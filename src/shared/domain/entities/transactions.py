@@ -1,5 +1,5 @@
 from typing import Tuple
-from ..errors.entity_errors import ParamNotValidated
+from ...helpers.errors.entity_errors import ParamNotValidated
 from..enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 import time

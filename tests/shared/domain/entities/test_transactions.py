@@ -1,9 +1,9 @@
 import pytest
 
-from src.app.entities.transactions import Transactions
-from src.app.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
+from src.shared.domain.entities.transactions import Transactions
+from src.shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
-from src.app.errors.entity_errors import ParamNotValidated
+from src.shared.helpers.errors.entity_errors import ParamNotValidated
 
 
 

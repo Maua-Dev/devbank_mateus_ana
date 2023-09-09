@@ -1,7 +1,7 @@
 import pytest
 
-from src.app.entities.user import User
-from src.app.errors.entity_errors import ParamNotValidated
+from src.shared.domain.entities.user import User
+from src.shared.helpers.errors.entity_errors import ParamNotValidated
 
 
 
