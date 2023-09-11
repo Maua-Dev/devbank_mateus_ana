@@ -1,6 +1,6 @@
 from ....shared.domain.entities.user import User
 
-class CreateTransactionViewModel:
+class GetUserViewModel:
     name: str
     agency: str
     account: str

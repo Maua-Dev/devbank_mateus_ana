@@ -24,7 +24,7 @@ class TransactionsViewModel:
             "timestamp": self.timestamp
         }
     
-class getAllTransactionsViewModel:
+class GetAllTransactionsViewModel:
     def __init__(self, transactions_list: List[Transactions]):
         self.transactions_viewmodel_list = [TransactionsViewModel(transaction).to_dict() for transaction in transactions_list]
 
