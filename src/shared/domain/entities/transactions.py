@@ -1,10 +1,11 @@
+from abc import ABC
 from typing import Tuple
 from ...helpers.errors.entity_errors import ParamNotValidated
 from..enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 import time
 
-class Transactions:
+class Transactions(ABC):
     type_transaction:  TRANSACTIONS_TYPE_ENUM
     value: float
     current_balance: float

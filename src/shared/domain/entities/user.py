@@ -1,7 +1,9 @@
-from typing import Tuple
-from ...helpers.errors.entity_errors import ParamNotValidated
+from abc import ABC
 
-class User:
+from typing import Tuple
+from ...helpers.errors.entity_errors import ParamNotValidated 
+
+class User(ABC):
     name: str
     agency: str
     account: str

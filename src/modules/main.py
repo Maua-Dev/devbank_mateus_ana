@@ -5,8 +5,8 @@ from mangum import Mangum
 
 from ..shared.domain.entities.transactions import Transactions
 from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
-
 from ..shared.environments import Environments
+from ..shared.helpers.enum.http_status_code_enum import HTTP_STATUS_CODE_ENUM
 
 
 
@@ -38,15 +38,15 @@ def get_all_transactions():
 
 def deposit(request: dict):
      if request.keys() != {"2","5","10","20","50","100","200"}:
-          raise HTTPException(status_code=400, detail="Invalid deposit!")
+          raise HTTPException(status_code=HTTP_STATUS_CODE_ENUM.BAD_REQUEST.value, detail="Invalid deposit!")
      
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
 
      if total_value > 2*user["current_balance"]:
-          raise HTTPException(status_code=403, detail="Suspicious transaction")
+          raise HTTPException(status_code=HTTP_STATUS_CODE_ENUM.FORBIDDEN.value, detail="Suspicious transaction")
      if total_value <= 0:
-          raise HTTPException(status_code=400, detail="Total deposit must be positive")
+          raise HTTPException(status_code=HTTP_STATUS_CODE_ENUM.BAD_REQUEST.value, detail="Total deposit must be positive")
      
      transaction = Transactions(
           type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT,
@@ -66,12 +66,12 @@ def deposit(request: dict):
 
 def withdraw(request: dict):
      if request.keys() != {"2","5","10","20","50","100","200"}:
-          raise HTTPException(status_code=400, detail="Invalid withdraw!")
+          raise HTTPException(status_code=HTTP_STATUS_CODE_ENUM.BAD_REQUEST.value, detail="Invalid withdraw!")
 
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
      if total_value > user["current_balance"]:
-          raise HTTPException(status_code=403, detail="Insufficient balance for transaction")
+          raise HTTPException(status_code=HTTP_STATUS_CODE_ENUM.FORBIDDEN.value, detail="Insufficient balance for transaction")
 
      transaction = Transactions(
           type_transaction =  TRANSACTIONS_TYPE_ENUM.WITHDRAW,
