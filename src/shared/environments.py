@@ -6,7 +6,7 @@ from ..shared.domain.repositories.user_repository_interface import IUserReposito
 
 from ..shared.helpers.errors.environment_errors import EnvironmentNotFound
 
-from ..shared.domain.repositories.transactions_repository_interface import IITransactionsRepository
+from ..shared.domain.repositories.transactions_repository_interface import ITransactionsRepository
 
 
 
@@ -38,7 +38,7 @@ class Environments:
         self.stage = STAGE[os.environ.get("STAGE")]
 
     @staticmethod
-    def get_transaction_repo() -> IITransactionsRepository:
+    def get_transaction_repo() -> ITransactionsRepository:
         if Environments.get_envs().stage == STAGE.TEST:
             from ..shared.infra.repositories.transactions_repository_mock import TransactionsRepositoryMock
             return TransactionsRepositoryMock

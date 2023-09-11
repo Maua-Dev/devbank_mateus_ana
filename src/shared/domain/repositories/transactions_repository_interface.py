@@ -4,7 +4,7 @@ from typing import List
 from ..entities.transactions import Transactions
 
 
-class IITransactionsRepository(ABC):
+class ITransactionsRepository(ABC):
 
     @abstractmethod
     def get_all_transactions(self) -> List[Transactions]:

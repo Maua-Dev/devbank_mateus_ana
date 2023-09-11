@@ -1,11 +1,11 @@
 import time
 from typing import Dict, Optional, List
 from ...domain.entities.transactions import Transactions
-from ...domain.repositories.transactions_repository_interface import IITransactionsRepository
+from ...domain.repositories.transactions_repository_interface import ITransactionsRepository
 from ...domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 
 
-class TransactionsRepositoryMock(IITransactionsRepository):
+class TransactionsRepositoryMock(ITransactionsRepository):
     transactions: list[Transactions]
 
     def __init__(self):
