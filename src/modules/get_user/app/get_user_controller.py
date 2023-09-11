@@ -16,12 +16,7 @@ class GetUserController:
     
     def __call__(self, request: IRequest) -> IResponse:
         try:
-            user = self.usecase(
-                name=request.data.get('name'),
-                agency=request.data.get('agency'),
-                account=request.data.get('account'),
-                current_balance=request.data.get('current_balance')
-            )
+            user = self.usecase()
             
             viewmodel = GetUserViewModel(user)
 
@@ -40,4 +35,4 @@ class GetUserController:
             return BadRequest(err.message)
         
         except Exception as err:
-            return InternalServerError(err.message)
+            return InternalServerError(err)

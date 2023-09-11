@@ -28,8 +28,8 @@ class Transactions(ABC):
             raise ParamNotValidated("current_balance", validate_current_balance[1])
         self.current_balance = current_balance
 
-    
-        if not self.validate_timestamp(timestamp):
+        validate_timestamp = self.validate_timestamp(timestamp)
+        if validate_timestamp is False:
             raise ParamNotValidated("timestamp", "Timestamp must be a float")
         self.timestamp = timestamp   
 
@@ -44,7 +44,6 @@ class Transactions(ABC):
             return(False, "Value must be a float")
         if value < 0:
             return (False, "Value must be a positive number")
-        
         return(True, "")
         
     @staticmethod

@@ -5,7 +5,7 @@ from .create_transaction_viewmodel import CreateTransactionViewModel
 from ....shared.helpers.errors.controller_errors import MissingParameters, WrongTypeParameter
 from ....shared.helpers.errors.domain_errors import EntityError
 from ....shared.helpers.errors.usecase_errors import NoItemsFound
-from ....shared.helpers.external_interfaces.http_codes import NotFound, BadRequest, InternalServerError 
+from ....shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError 
 
 class CreateTransactionController:
 
@@ -13,37 +13,36 @@ class CreateTransactionController:
         self.CreateTransactionUseCase = usecase
     def __call__(self, request: IRequest) -> IResponse:
         try:
-            list_request = []
-            for r in request:
-                if request.data.get(r) is None:
+            dict_request = {"type": "", "value": "", "current_balance": "" , "timestamp": ""}
+            for r in dict_request.keys():
+                value = request.data.get(r)
+                if value is None:
                     raise MissingParameters(r)
-                list_request.append(r)
-            
+                dict_request[r] = value
             transaction = self.CreateTransactionUseCase(
-                name=list_request[0],
-                agency=list_request[1],
-                account=list_request[2],
-                current_balance=list_request[3]
+                type_transaction=dict_request['type'],
+                value=dict_request['value'],
+                current_balance=dict_request['current_balance'],
+                timestamp=dict_request['timestamp'],
             )
-
             viewmodel = CreateTransactionViewModel(transaction)
 
-            return viewmodel.to_dict()
+            return OK(viewmodel.to_dict())
         
         except NoItemsFound as err:
-            return NotFound(err.message)
+            return NotFound(body=err.message)
         
         except MissingParameters as err:
-            return BadRequest(err.message)
+            return BadRequest(body=err.message)
         
         except WrongTypeParameter as err:
-            return BadRequest(err.message)
+            return BadRequest(body=err.message)
         
         except EntityError as err:
-            return BadRequest(err.message)
+            return BadRequest(body=err.message)
         
         except Exception as err:
-            return InternalServerError(err.message)
+            return InternalServerError(body=err)
         
 
 

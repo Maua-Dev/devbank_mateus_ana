@@ -15,8 +15,9 @@ class CreateTransactionViewModel:
     
     def to_dict(self):
         return {
-            "type_transaction": self.type_transaction.value.lower(),
+            "type": self.type_transaction.value.lower(),
             "value": self.value,
             "current_balance": self.current_balance,
-            "timestamp": self.timestamp
+            "timestamp": self.timestamp,
+            "message": "Transaction created successfully"
         }

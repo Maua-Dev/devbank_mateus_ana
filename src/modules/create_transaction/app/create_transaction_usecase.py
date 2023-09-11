@@ -18,7 +18,7 @@ class CreateTransactionUseCase:
         if not Transactions.validate_current_balance(current_balance)[0]:
             raise ParamNotValidated("current_balance", Transactions.validate_current_balance(current_balance)[1])
         
-        if not Transactions.validate_timestamp(timestamp):
+        if not Transactions.validate_timestamp(self,timestamp=timestamp):
             raise ParamNotValidated("timestamp", "Timestamp must be a float")
         
         transaction = Transactions(

@@ -12,8 +12,9 @@ class Test_CreateTransactionViewModel:
         )
         create_transaction_viewmodel = CreateTransactionViewModel(transaction).to_dict()
         assert create_transaction_viewmodel == {
-            "type_transaction": "deposit",
+            "type": "deposit",
             "value": 100.00,
             "current_balance": 100.00,
-            "timestamp": 100.00
+            "timestamp": 100.00,
+            "message": "Transaction created successfully"
         }

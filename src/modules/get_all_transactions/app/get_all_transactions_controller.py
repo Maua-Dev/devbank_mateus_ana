@@ -20,7 +20,6 @@ class GetAllTransactionsController:
             all_transactions: List[Transactions] = self.usecase()
 
             viewmodel = GetAllTransactionsViewModel(all_transactions)
-
             return OK(viewmodel.to_dict())
         
         except NoItemsFound as err:
