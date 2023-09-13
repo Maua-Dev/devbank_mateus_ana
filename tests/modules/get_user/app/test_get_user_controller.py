@@ -8,10 +8,5 @@ class Test_GetUserController:
     get_user_usecase = GetUserUsecase(repo_mock)
     controller = GetUserController(get_user_usecase)
 
-    response = controller(HttpRequest(body={
-        "name": "Mateus",
-        "agency": "0000",
-        "account": "12345-6",
-        "current_balance": 1000
-    }))
+    response = controller()
     assert response.status_code == 200

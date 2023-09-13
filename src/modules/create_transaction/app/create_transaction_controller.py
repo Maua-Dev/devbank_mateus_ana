@@ -13,17 +13,19 @@ class CreateTransactionController:
         self.CreateTransactionUseCase = usecase
     def __call__(self, request: IRequest) -> IResponse:
         try:
-            dict_request = {"type": "", "value": "", "current_balance": "" , "timestamp": ""}
-            for r in dict_request.keys():
-                value = request.data.get(r)
-                if value is None:
-                    raise MissingParameters(r)
-                dict_request[r] = value
+            if request.data.get("type") is None:
+                raise MissingParameters("type")
+            if request.data.get("value") is None:
+                raise MissingParameters("value")
+            if request.data.get("current_balance") is None:
+                raise MissingParameters("current_balance")
+            if request.data.get("timestamp") is None:
+                raise MissingParameters("timestamp")
             transaction = self.CreateTransactionUseCase(
-                type_transaction=dict_request['type'],
-                value=dict_request['value'],
-                current_balance=dict_request['current_balance'],
-                timestamp=dict_request['timestamp'],
+                type_transaction=request.data.get("type") ,
+                value=request.data.get("value"),
+                current_balance=request.data.get("current_balance"),
+                timestamp=request.data.get("timestamp"),
             )
             viewmodel = CreateTransactionViewModel(transaction)
 
@@ -42,6 +44,7 @@ class CreateTransactionController:
             return BadRequest(body=err.message)
         
         except Exception as err:
+            print(err)
             return InternalServerError(body=err)
         
 

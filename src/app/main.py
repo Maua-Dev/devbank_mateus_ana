@@ -3,10 +3,15 @@ from fastapi import FastAPI, HTTPException
 from mangum import Mangum
 
 
+from ..modules.get_user.app.get_user_usecase import GetUserUsecase
+from ..modules.get_user.app.get_user_controller import GetUserController
+
+
 from ..shared.domain.entities.transactions import Transactions
 from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from ..shared.environments import Environments
 from ..shared.helpers.enum.http_status_code_enum import HttpStatusCodeEnum
+
 
 
 
@@ -18,11 +23,12 @@ user_repo = Environments.get_user_repo()()
 
 transaction_repo = Environments.get_transaction_repo()()
 
+
 @app.get("/")
 
 def get_user():
-     user = user_repo.get_user()
-     return user.to_dict()
+     user = user_repo.get_user().to_dict()
+     return user
 
 @app.get("/history")
 

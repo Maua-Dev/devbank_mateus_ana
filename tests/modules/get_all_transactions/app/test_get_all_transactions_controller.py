@@ -12,19 +12,6 @@ class Test_CreateTransactionController:
     get_all_transactions_usecase = GetAllTransactionsUseCase(repo_mock)
     controller = GetAllTransactionsController(get_all_transactions_usecase)
 
-    response = controller(HttpRequest(body={
-        "all_transactions": [{
-        "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-        "value": 100.00,
-        "current_balance": 1100.00,
-        "timestamp": time.time(),
-        },
-        {
-        "type": TRANSACTIONS_TYPE_ENUM.WITHDRAW,
-        "value": 50.00,
-        "current_balance": 1050.00,
-        "timestamp": time.time(),
-        }]
-    }))
+    response = controller()
     
     assert response.status_code == 200

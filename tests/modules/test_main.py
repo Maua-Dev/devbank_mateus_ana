@@ -1,4 +1,4 @@
-from src.modules.main import get_all_transactions, get_user,deposit,withdraw
+from src.app.main import get_all_transactions, get_user,deposit,withdraw
 
 
 class Test_Main:

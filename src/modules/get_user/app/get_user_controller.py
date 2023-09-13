@@ -14,7 +14,7 @@ class GetUserController:
     def __init__(self, usecase: GetUserUsecase):
         self.usecase = usecase
     
-    def __call__(self, request: IRequest) -> IResponse:
+    def __call__(self) -> IResponse:
         try:
             user = self.usecase()
             

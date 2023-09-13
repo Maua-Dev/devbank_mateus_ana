@@ -99,7 +99,7 @@ class Test_CreateTransactionController:
 
         request = HttpRequest(body={
             "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-            "value": "100.00",
+            "value": "Test",
             "current_balance": 1100.00,
             "timestamp": 1239.00,
         })
@@ -115,7 +115,7 @@ class Test_CreateTransactionController:
         request = HttpRequest(body={
             "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
             "value": 100.00,
-            "current_balance": "1100.00",
+            "current_balance": "Testt",
             "timestamp": 1239.00,
         })
 
@@ -131,7 +131,7 @@ class Test_CreateTransactionController:
             "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
             "value": 100.00,
             "current_balance": 1100.00,
-            "timestamp": "1239.00",
+            "timestamp": "Test",
         })
 
         response = controller(request)

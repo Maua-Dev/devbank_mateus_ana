@@ -15,7 +15,7 @@ class GetAllTransactionsController:
     def __init__(self, usecase: GetAllTransactionsUseCase):
         self.usecase = usecase
     
-    def __call__(self, request: IRequest) -> IResponse:
+    def __call__(self) -> IResponse:
         try:
             all_transactions: List[Transactions] = self.usecase()
 
