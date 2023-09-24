@@ -1,3 +1,4 @@
+from ....shared.domain.entities.transactions import Transactions
 from ....shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from .create_transaction_usecase import CreateTransactionUseCase
 from .create_transaction_viewmodel import CreateTransactionViewModel
@@ -11,7 +12,7 @@ class CreateTransactionController:
 
     def __init__(self, usecase: CreateTransactionUseCase):
         self.CreateTransactionUseCase = usecase
-    def __call__(self, request: IRequest) -> IResponse:
+    def __call__(self, request: Transactions) -> IResponse:
         try:
             if request.data.get("type") is None:
                 raise MissingParameters("type")
@@ -21,11 +22,15 @@ class CreateTransactionController:
                 raise MissingParameters("current_balance")
             if request.data.get("timestamp") is None:
                 raise MissingParameters("timestamp")
+            if request.data.get("request") is None:
+                raise MissingParameters("request")
+            
             transaction = self.CreateTransactionUseCase(
                 type_transaction=request.data.get("type") ,
                 value=request.data.get("value"),
                 current_balance=request.data.get("current_balance"),
                 timestamp=request.data.get("timestamp"),
+                request=request.data.get("request")
             )
             viewmodel = CreateTransactionViewModel(transaction)
 
@@ -44,7 +49,6 @@ class CreateTransactionController:
             return BadRequest(body=err.message)
         
         except Exception as err:
-            print(err)
             return InternalServerError(body=err)
         
 

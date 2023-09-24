@@ -10,7 +10,7 @@ class Test_Main:
             'name': 'Mateus',
             'agency': '0000',
             'account': '12345-6',
-            'current_balance':1000.00
+            'current_balance':1050.00
         }
         assert type(response) == dict
         assert response == expected_response
@@ -29,7 +29,8 @@ class Test_Main:
         "100": 0,
         "200": 0,
         }        
-        response = deposit(dict_values)
+        response = deposit(dict_values).body
+        
         assert type(response) == dict
 
     def test_withdraw(self):
@@ -42,7 +43,7 @@ class Test_Main:
         "100": 0,
         "200": 0,
         }  
-        response = withdraw(dict_values)
+        response = withdraw(dict_values).body
 
         assert type(response) == dict
         

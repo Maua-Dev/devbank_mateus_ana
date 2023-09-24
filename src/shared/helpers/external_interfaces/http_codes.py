@@ -1,7 +1,7 @@
 from typing import Any
 
 from ..enum.http_status_code_enum import HttpStatusCodeEnum
-from src.shared.helpers.external_interfaces.http_models import HttpResponse
+from ....shared.helpers.external_interfaces.http_models import HttpResponse
 
 
 class OK(HttpResponse):

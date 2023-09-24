@@ -1,19 +1,20 @@
 import time
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from mangum import Mangum
-
-
-from ..modules.get_user.app.get_user_usecase import GetUserUsecase
-from ..modules.get_user.app.get_user_controller import GetUserController
-
 
 from ..shared.domain.entities.transactions import Transactions
 from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from ..shared.environments import Environments
+
 from ..shared.helpers.enum.http_status_code_enum import HttpStatusCodeEnum
+from ..shared.helpers.external_interfaces.http_models import HttpRequest
 
-
-
+from ..modules.get_all_transactions.app.get_all_transactions_usecase import GetAllTransactionsUseCase
+from ..modules.get_all_transactions.app.get_all_transactions_controller import GetAllTransactionsController
+from ..modules.create_transaction.app.create_transaction_usecase import CreateTransactionUseCase
+from ..modules.create_transaction.app.create_transaction_controller import CreateTransactionController
+from ..modules.get_user.app.get_user_usecase import GetUserUsecase
+from ..modules.get_user.app.get_user_controller import GetUserController
 
 
 
@@ -25,71 +26,63 @@ transaction_repo = Environments.get_transaction_repo()()
 
 
 @app.get("/")
-
 def get_user():
-     user = user_repo.get_user().to_dict()
-     return user
+     usecase = GetUserUsecase(user_repo)
+     controller = GetUserController(usecase)
+     return controller().body
 
 @app.get("/history")
-
 def get_all_transactions():
-     transactions = transaction_repo.get_all_transactions()
+     usecase = GetAllTransactionsUseCase(transaction_repo)
+     controller = GetAllTransactionsController(usecase)
 
-     transaction_list = [transaction.to_dict() for transaction in transactions]
-     return {
-          'all_transactions':transaction_list
-     }
+     
+     return controller().body
 
 @app.post("/deposit")
-
 def deposit(request: dict):
-     if request.keys() != {"2","5","10","20","50","100","200"}:
-          raise HTTPException(status_code=HttpStatusCodeEnum.BAD_REQUEST.value, detail="Invalid deposit!")
      
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
-
-     if total_value > 2*user["current_balance"]:
-          raise HTTPException(status_code=HttpStatusCodeEnum.FORBIDDEN.value, detail="Suspicious transaction")
-     if total_value <= 0:
-          raise HTTPException(status_code=HttpStatusCodeEnum.BAD_REQUEST.value, detail="Total deposit must be positive")
+     total_value = float(total_value)
      
-     transaction = Transactions(
-          type_transaction= TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-          value=float(total_value),
-          current_balance=total_value + user["current_balance"],
-          timestamp = time.time()*1000
-     )    
+     request = HttpRequest(body={
+          "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
+          "value": total_value,
+          "current_balance": user["current_balance"] + total_value,
+          "timestamp": time.time()*1000,
+          "request": request
+     })
 
+     usecase = CreateTransactionUseCase(transaction_repo, user_repo)
 
-     transaction_repo.create_transaction(transaction)
-     user_repo.deposit_current_balance(total_value)
-
-     return transaction.to_dict()
+     controller = CreateTransactionController(usecase)
+     transaction = controller(request)
+     return transaction
 
      
 @app.post("/withdraw")
-
 def withdraw(request: dict):
-     if request.keys() != {"2","5","10","20","50","100","200"}:
-          raise HTTPException(status_code=HttpStatusCodeEnum.BAD_REQUEST.value, detail="Invalid withdraw!")
 
+     
      user = user_repo.get_user().to_dict()
      total_value = sum([int(k)*v for k,v in request.items()])
-     if total_value > user["current_balance"]:
-          raise HTTPException(status_code=HttpStatusCodeEnum.FORBIDDEN.value, detail="Insufficient balance for transaction")
+     total_value = float(total_value)
+     
+     request = HttpRequest(body={
+          "type": TRANSACTIONS_TYPE_ENUM.WITHDRAW,
+          "value": total_value,
+          "current_balance": user["current_balance"] - total_value,
+          "timestamp": time.time()*1000,
+          "request": request
+     })
 
-     transaction = Transactions(
-          type_transaction =  TRANSACTIONS_TYPE_ENUM.WITHDRAW,
-          value=float(total_value),
-          current_balance= user["current_balance"] - total_value,
-          timestamp=time.time()*1000
-     )
+     usecase = CreateTransactionUseCase(transaction_repo, user_repo)
 
-     transaction_repo.create_transaction(transaction)
-     user_repo.withdraw_current_balance(total_value)
+     controller = CreateTransactionController(usecase)
+     transaction = controller(request)
+     return transaction
 
-     return transaction.to_dict()
 
 
 
