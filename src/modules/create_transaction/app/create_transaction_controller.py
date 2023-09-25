@@ -1,4 +1,5 @@
 from ....shared.domain.entities.transactions import Transactions
+from ....shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from ....shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from .create_transaction_usecase import CreateTransactionUseCase
 from .create_transaction_viewmodel import CreateTransactionViewModel
@@ -12,24 +13,18 @@ class CreateTransactionController:
 
     def __init__(self, usecase: CreateTransactionUseCase):
         self.CreateTransactionUseCase = usecase
-    def __call__(self, request: Transactions) -> IResponse:
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            if request.data.get("type") is None:
-                raise MissingParameters("type")
-            if request.data.get("value") is None:
-                raise MissingParameters("value")
-            if request.data.get("current_balance") is None:
-                raise MissingParameters("current_balance")
-            if request.data.get("timestamp") is None:
-                raise MissingParameters("timestamp")
-            if request.data.get("request") is None:
-                raise MissingParameters("request")
+            lista_notas = ["2","5","10","20","50","100","200"]
+            if type(request.data.get("type")) is None:
+                raise WrongTypeParameter("type")
+            for n in lista_notas:
+                if n not in request.data.get("request").keys():
+                    raise MissingParameters("Request must be a dict with keys 2,5,10,20,50,100,200")
+            
             
             transaction = self.CreateTransactionUseCase(
-                type_transaction=request.data.get("type") ,
-                value=request.data.get("value"),
-                current_balance=request.data.get("current_balance"),
-                timestamp=request.data.get("timestamp"),
+                type=request.data.get("type"),
                 request=request.data.get("request")
             )
             viewmodel = CreateTransactionViewModel(transaction)

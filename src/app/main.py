@@ -29,7 +29,7 @@ transaction_repo = Environments.get_transaction_repo()()
 def get_user():
      usecase = GetUserUsecase(user_repo)
      controller = GetUserController(usecase)
-     return controller().body
+     return controller()
 
 @app.get("/history")
 def get_all_transactions():
@@ -37,25 +37,17 @@ def get_all_transactions():
      controller = GetAllTransactionsController(usecase)
 
      
-     return controller().body
+     return controller()
 
 @app.post("/deposit")
 def deposit(request: dict):
      
-     user = user_repo.get_user().to_dict()
-     total_value = sum([int(k)*v for k,v in request.items()])
-     total_value = float(total_value)
-     
      request = HttpRequest(body={
           "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-          "value": total_value,
-          "current_balance": user["current_balance"] + total_value,
-          "timestamp": time.time()*1000,
           "request": request
      })
 
      usecase = CreateTransactionUseCase(transaction_repo, user_repo)
-
      controller = CreateTransactionController(usecase)
      transaction = controller(request)
      return transaction
@@ -71,14 +63,10 @@ def withdraw(request: dict):
      
      request = HttpRequest(body={
           "type": TRANSACTIONS_TYPE_ENUM.WITHDRAW,
-          "value": total_value,
-          "current_balance": user["current_balance"] - total_value,
-          "timestamp": time.time()*1000,
           "request": request
      })
 
      usecase = CreateTransactionUseCase(transaction_repo, user_repo)
-
      controller = CreateTransactionController(usecase)
      transaction = controller(request)
      return transaction

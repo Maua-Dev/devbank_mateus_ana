@@ -1,8 +1,7 @@
 from typing import List
 
-from src.shared.domain.entities.transactions import Transactions
-from src.shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
-from src.shared.domain.repositories.transactions_repository_interface import ITransactionsRepository
+from ....shared.domain.entities.transactions import Transactions
+from ....shared.domain.repositories.transactions_repository_interface import ITransactionsRepository
 
 
 class GetAllTransactionsUseCase:

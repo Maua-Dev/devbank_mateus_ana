@@ -1,4 +1,5 @@
 from src.app.main import get_all_transactions, get_user,deposit,withdraw
+from src.shared.helpers.external_interfaces.http_codes import OK
 
 
 class Test_Main:
@@ -12,12 +13,12 @@ class Test_Main:
             'account': '12345-6',
             'current_balance':1050.00
         }
-        assert type(response) == dict
-        assert response == expected_response
+        assert type(response) == OK
+        assert response.body == expected_response
 
     def test_get_history(self):
         response = get_all_transactions()
-        assert type(response) == dict
+        assert type(response) == OK
     
     def test_deposit(self):
         dict_values={
