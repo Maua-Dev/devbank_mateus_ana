@@ -13,19 +13,15 @@ class CreateTransactionController:
 
     def __init__(self, usecase: CreateTransactionUseCase):
         self.CreateTransactionUseCase = usecase
-    def __call__(self, request: IRequest) -> IResponse:
+    def __call__(self, request: dict) -> IResponse:
         try:
-            lista_notas = ["2","5","10","20","50","100","200"]
-            if type(request.data.get("type")) is None:
-                raise WrongTypeParameter("type")
-            for n in lista_notas:
-                if n not in request.data.get("request").keys():
-                    raise MissingParameters("Request must be a dict with keys 2,5,10,20,50,100,200")
-            
+            lista_parametros = ["2","5","10","20","50","100","200","type"]
+            for n in lista_parametros:
+                if n not in request.keys():
+                    raise MissingParameters(n)
             
             transaction = self.CreateTransactionUseCase(
-                type=request.data.get("type"),
-                request=request.data.get("request")
+                request=request,
             )
             viewmodel = CreateTransactionViewModel(transaction)
 

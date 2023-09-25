@@ -41,12 +41,7 @@ def get_all_transactions():
 
 @app.post("/deposit")
 def deposit(request: dict):
-     
-     request = HttpRequest(body={
-          "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-          "request": request
-     })
-
+     request["type"] = TRANSACTIONS_TYPE_ENUM.DEPOSIT
      usecase = CreateTransactionUseCase(transaction_repo, user_repo)
      controller = CreateTransactionController(usecase)
      transaction = controller(request)
@@ -55,17 +50,7 @@ def deposit(request: dict):
      
 @app.post("/withdraw")
 def withdraw(request: dict):
-
-     
-     user = user_repo.get_user().to_dict()
-     total_value = sum([int(k)*v for k,v in request.items()])
-     total_value = float(total_value)
-     
-     request = HttpRequest(body={
-          "type": TRANSACTIONS_TYPE_ENUM.WITHDRAW,
-          "request": request
-     })
-
+     request["type"] = TRANSACTIONS_TYPE_ENUM.WITHDRAW
      usecase = CreateTransactionUseCase(transaction_repo, user_repo)
      controller = CreateTransactionController(usecase)
      transaction = controller(request)

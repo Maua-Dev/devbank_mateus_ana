@@ -14,20 +14,16 @@ class Test_CreateTransactionController:
         usecase = CreateTransactionUseCase(transactions_repo, user_repo)
         controller = CreateTransactionController(usecase)
 
-        dict_values={
+        request={
             "2": 0,
             "5": 0,
             "10": 0,
             "20": 0,
             "50": 0,
             "100": 1,
-            "200": 0
+            "200": 0,
+            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT
         }   
-
-        request = HttpRequest(body={
-            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-            "request": dict_values
-        })
 
         response = controller(request)
 
@@ -43,7 +39,7 @@ class Test_CreateTransactionController:
         usecase = CreateTransactionUseCase(transactions_repo, user_repo)
         controller = CreateTransactionController(usecase)
 
-        dict_values={
+        request={
             "2": 0,
             "5": 0,
             "10": 0,
@@ -53,26 +49,28 @@ class Test_CreateTransactionController:
             "200": 0
         } 
 
-        request = HttpRequest(body={
-            "request": dict_values
-        })
-
         response = controller(request)
 
-        assert response.status_code == 500
+        assert response.status_code == 400
 
-    def test_create_transaction_controller_missing_request(self):
+    def test_create_transaction_controller_missing_bill(self):
         transactions_repo = TransactionsRepositoryMock()
         user_repo = UserRepositoryMock()
         usecase = CreateTransactionUseCase(transactions_repo, user_repo)
         controller = CreateTransactionController(usecase)
 
-        request = HttpRequest(body={
-            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT,
-        })
+        request={
+            "2": 0,
+            "5": 0,
+            "10": 0,
+            "50": 0,
+            "100": 1,
+            "200": 0,
+            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT.value.lower()
+        }  
 
         response = controller(request)
 
-        assert response.status_code == 500
+        assert response.status_code == 400
     
    

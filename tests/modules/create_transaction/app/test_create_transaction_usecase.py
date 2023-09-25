@@ -21,11 +21,11 @@ class Test_CreateTransactionUseCase:
             "20": 0,
             "50": 5,
             "100": 0,
-            "200": 1
+            "200": 1,
+            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT
         }   
 
         transactions = usecase(
-            type=TRANSACTIONS_TYPE_ENUM.DEPOSIT,
             request=dict_values
         )
 
@@ -43,16 +43,16 @@ class Test_CreateTransactionUseCase:
             "20": 0,
             "50": 5,
             "100": 0,
-            "200": 1
+            "200": 1,
+            "type": "invalid"
         }   
 
         with pytest.raises(ParamNotValidated):
             user = usecase(
-                type="deposit",
                 request=dict_values
             )
 
-    def test_create_transactions_with_invalid_request(self):
+    def test_create_transactions_with_invalid_bill(self):
         transactions_repo = TransactionsRepositoryMock()
         user_repo = UserRepositoryMock()
         usecase = CreateTransactionUseCase(transactions_repo, user_repo)
@@ -63,12 +63,12 @@ class Test_CreateTransactionUseCase:
             "10": 0,
             "20": 0,
             "50": 5,
-            "200": 1
+            "200": 1,
+            "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT
         }   
 
         with pytest.raises(ForbiddenAction):
             transactions = usecase(
-                type=TRANSACTIONS_TYPE_ENUM.DEPOSIT,
                 request=dict_values
             )
     

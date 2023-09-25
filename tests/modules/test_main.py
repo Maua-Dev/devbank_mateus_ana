@@ -1,4 +1,5 @@
 from src.app.main import get_all_transactions, get_user,deposit,withdraw
+from src.shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from src.shared.helpers.external_interfaces.http_codes import OK
 
 
@@ -29,6 +30,7 @@ class Test_Main:
         "50": 1,
         "100": 0,
         "200": 0,
+        "type": TRANSACTIONS_TYPE_ENUM.DEPOSIT.value.lower()
         }        
         response = deposit(dict_values).body
         
@@ -43,6 +45,7 @@ class Test_Main:
         "50": 1,
         "100": 0,
         "200": 0,
+        "type": TRANSACTIONS_TYPE_ENUM.WITHDRAW.value.lower()
         }  
         response = withdraw(dict_values).body
 

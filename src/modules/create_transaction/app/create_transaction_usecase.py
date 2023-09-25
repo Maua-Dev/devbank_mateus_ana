@@ -14,20 +14,18 @@ class CreateTransactionUseCase:
     def __init__(self, repoTransaction: ITransactionsRepository, repoUser: IUserRepository):
         self.repoTransaction = repoTransaction
         self.repoUser = repoUser
-    def __call__(self,type: TRANSACTIONS_TYPE_ENUM,request: dict) -> Transactions:
-        if request.keys() != {"2","5","10","20","50","100","200"}:
+    def __call__(self,request: dict) -> Transactions:
+        if request.keys() != {"2","5","10","20","50","100","200","type"}:
             raise ForbiddenAction("Request must be a dict with keys 2,5,10,20,50,100,200")
         
-        if not Transactions.validate_type_transaction(type):
+        if not Transactions.validate_type_transaction(request["type"]):
             raise ParamNotValidated("type_transaction", "Type transaction must be a TRANSACTION_TYPE_ENUM")
         
-
-
         user = self.repoUser.get_user().to_dict()
-        total_value = sum([int(k)*v for k,v in request.items()])
+        total_value = sum([int(k)*v for k,v in request.items() if k != "type"])
         total_value = float(total_value)
             
-
+        type = request["type"]
         if type == TRANSACTIONS_TYPE_ENUM.DEPOSIT:
             transaction = Transactions(
             type_transaction=type,
