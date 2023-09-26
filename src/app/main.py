@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from mangum import Mangum
 
 from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
-from ..shared.environments import Environments
+from .environments import Environments
 
 
 from ..modules.get_all_transactions.app.get_all_transactions_usecase import GetAllTransactionsUseCase

@@ -1,4 +1,4 @@
-from .base_error import BaseError
+from ..errors.base_error import BaseError
 
 
 class EnvironmentNotFound(BaseError):

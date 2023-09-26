@@ -1,7 +1,7 @@
 
 from ....shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from .get_user_usecase import GetUserUsecase
-from .get_user_viewmodel import GetUserViewModel
+from ..app.get_user_usecase import GetUserUsecase
+from ..app.get_user_viewmodel import GetUserViewModel
 
 from ....shared.helpers.errors.controller_errors import MissingParameters, WrongTypeParameter
 from ....shared.helpers.errors.domain_errors import EntityError

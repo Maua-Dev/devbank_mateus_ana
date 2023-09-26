@@ -1,8 +1,8 @@
 from ....shared.domain.entities.transactions import Transactions
 from ....shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from ....shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from .create_transaction_usecase import CreateTransactionUseCase
-from .create_transaction_viewmodel import CreateTransactionViewModel
+from ..app.create_transaction_usecase import CreateTransactionUseCase
+from ..app.create_transaction_viewmodel import CreateTransactionViewModel
 
 from ....shared.helpers.errors.controller_errors import MissingParameters, WrongTypeParameter
 from ....shared.helpers.errors.domain_errors import EntityError

@@ -2,8 +2,8 @@ from typing import List
 
 from ....shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from ....shared.domain.entities.transactions import Transactions
-from .get_all_transactions_usecase import GetAllTransactionsUseCase
-from .get_all_transactions_viewmodel import GetAllTransactionsViewModel
+from ..app.get_all_transactions_usecase import GetAllTransactionsUseCase
+from ..app.get_all_transactions_viewmodel import GetAllTransactionsViewModel
 
 from ....shared.helpers.errors.controller_errors import MissingParameters, WrongTypeParameter
 from ....shared.helpers.errors.domain_errors import EntityError
