@@ -1,13 +1,9 @@
-import time
 from fastapi import FastAPI
 from mangum import Mangum
 
-from ..shared.domain.entities.transactions import Transactions
 from ..shared.domain.enums.transactions_type_enum import TRANSACTIONS_TYPE_ENUM
 from ..shared.environments import Environments
 
-from ..shared.helpers.enum.http_status_code_enum import HttpStatusCodeEnum
-from ..shared.helpers.external_interfaces.http_models import HttpRequest
 
 from ..modules.get_all_transactions.app.get_all_transactions_usecase import GetAllTransactionsUseCase
 from ..modules.get_all_transactions.app.get_all_transactions_controller import GetAllTransactionsController
@@ -35,8 +31,6 @@ def get_user():
 def get_all_transactions():
      usecase = GetAllTransactionsUseCase(transaction_repo)
      controller = GetAllTransactionsController(usecase)
-
-     
      return controller()
 
 @app.post("/deposit")

@@ -1,5 +1,3 @@
-
-
 from typing import Tuple
 from ...helpers.errors.entity_errors import ParamNotValidated 
 

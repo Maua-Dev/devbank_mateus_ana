@@ -10,7 +10,7 @@ class TransactionsRepositoryMock(ITransactionsRepository):
 
     def __init__(self):
         self.transactions = [
-            Transactions(TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, 1628400000.0),
+            Transactions(TRANSACTIONS_TYPE_ENUM.DEPOSIT, 100.00, 1100.00, time.time()*1000),
             Transactions(TRANSACTIONS_TYPE_ENUM.WITHDRAW, 50.00, 1050.00, time.time()*1000),
         ]
         

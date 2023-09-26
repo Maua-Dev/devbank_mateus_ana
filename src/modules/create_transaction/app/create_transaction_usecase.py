@@ -1,5 +1,4 @@
 import time
-from fastapi.exceptions import HTTPException
 
 from ....shared.helpers.errors.usecase_errors import ForbiddenAction
 from ....shared.helpers.enum.http_status_code_enum import HttpStatusCodeEnum
